@@ -29,7 +29,7 @@ def data_processor(args, data):
         for turn in sample["dialogue"]:
             turn_idx = turn["turn_idx"]
             turn_domain = turn["domain"]
-            if turn_domain not in EXPERIMENT_DOMAINS:
+            if turn_domain not in EXPERIMENT_DOMAINS and args["remove_excluded_utterances"] == 1:
                 continue
             turn_belief_state = turn["belief_state"]
             turn_label = turn["turn_label"]
@@ -103,5 +103,6 @@ if __name__ == '__main__':
     parser.add_argument("--stage", default="train", type=str)
     parser.add_argument("--data_ratio", default=1, type=int)
     parser.add_argument("--seed", default=10, type=int)
+    parser.add_argument("remove_excluded_utterances", default=0, type=int)
     args = vars(parser.parse_args())
     create_data(args)
